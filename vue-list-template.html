@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>template用法</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <template v-for="(item,index) in list">
+            <!-- template一般用作占位用,不会在页面中渲染出DOM -->
+            <div>
+                div:{{item}}---{{index}}
+            </div>
+            <span>
+                span:{{item}}---{{index}}
+            </span>
+            <hr>
+        </template>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                list:['hello','world','template','show']
+            }
+        })
+    </script>
+</body>
+</html>

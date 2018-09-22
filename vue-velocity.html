@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css动画原理</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="./animate.css">
+    <script src="./velocity.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- @before-enter:由隐藏到出现的动画特效钩子函数 -->
+        <transition name="fade" 
+            @before-enter="handleBeforeEnter" 
+            @enter="handleEnter"
+            @after-enter="handerAfterEnter"
+        >
+            <!-- 在此标签的的标签会有动画效果 -->
+            <div v-if="show">hello</div>
+        </transition>
+        <button @click="handleClick">clickMe</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                show: true,
+            },
+            methods: {
+                handleClick: function(){
+                    this.show = !this.show
+                },
+                handleBeforeEnter: function(el){
+                    el.style.opacity = 0;
+                },
+                handleEnter: function(el,done){
+                    Velocity(
+                        el, 
+                        {opacity:1},
+                        {duration: 1000, complete:done}
+                    )
+                },
+                handerAfterEnter: function(el) {
+                    alert('动画结束')
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>

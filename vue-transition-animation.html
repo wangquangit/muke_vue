@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue中多个元素或组件的过度动画</title>
+    <script src="./vue.js"></script>
+    <!-- <script src="./velocity.js"></script> -->
+    <style>
+        .v-enter,
+        .v-leave-to{
+            opacity: 0;
+        }
+        .v-enter-active,
+        .v-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- @before-enter:由隐藏到出现的动画特效钩子函数 -->
+        <!-- mode="in-out":过渡特效 -->
+        <transition mode="out-in">
+            <!-- 在此标签的的标签会有动画效果 -->
+
+            <!-- component:动态组件的切换 -->
+            <component :is="type"></component>
+            <!-- <child v-if="show" key="hello"></child>
+            <child-one v-else key="bye"></child-one> -->
+        </transition>
+        <button @click="handleClick">clickMe</button>
+    </div>
+    <script>
+        Vue.component(
+            'child',
+            {
+                template: `
+                    <div>
+                        child
+                    </div>`,
+            }
+        )
+
+        Vue.component(
+            'child-one',
+            {
+                template: `
+                    <div>
+                        child-one
+                    </div>`,
+            }
+        )
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                type: 'child',
+            },
+            methods: {
+                handleClick: function(){
+                    this.type = this.type === 'child' ? 'child-one' : 'child'
+                },
+                handleBeforeEnter: function(el){
+                    el.style.opacity = 0;
+                },
+                handleEnter: function(el,done){
+                    Velocity(
+                        el, 
+                        {opacity:1},
+                        {duration: 1000, complete:done}
+                    )
+                },
+                handerAfterEnter: function(el) {
+                    alert('动画结束')
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>

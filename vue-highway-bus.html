@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>(非父子组件间传值)总线、Bus、发布订阅模式、观察着模式</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+            <child content="Dell"></child>
+            <child content="Lee"></child>
+    </div>
+    <script>
+        // 在Vue上挂载bus属性,他是一个Vue对象,每个Vue对象上都会存在bus属性
+        Vue.prototype.bus = new Vue();
+
+        Vue.component('child', 
+            {
+                template: '<div @click="handleClick">{{selfCountent}}</div>',
+                data(){
+                    return {selfCountent: this.content}
+                },
+                props: {content: String},
+                methods: {
+                    handleClick: function(){
+                        this.bus.$emit('change',this.content)
+                    }
+                },
+                mounted() {
+                    var this_ = this
+                    this.bus.$on('change', function(msg){
+                        this_.selfCountent = msg;
+                    });
+                },
+            },
+        );
+
+        var vm = new Vue({
+            el: '#app',
+        });
+    </script>
+</body>
+</html>

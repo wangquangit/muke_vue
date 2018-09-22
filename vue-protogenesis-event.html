@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>给组件绑定原生事件</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+            <!-- 原生事件的触发 -->
+            <child @click.native="handleClick"></child>
+
+            <!-- 传统事件的触发 -->
+            <!-- <child @click="handleClick"></child> -->
+    </div>
+    <script>
+        Vue.component('child',
+            {
+                template: '<div>Child</div>',
+                // template: '<div @click="handleChildClick">Child</div>',
+                // methods: {
+                //     handleChildClick: function() {
+                //         // 自组件触发单击事件后给父组件发送一个click事件
+                //         this.$emit('click')
+                //     }
+                // }
+            }
+        )
+        var vm = new Vue({
+            el: '#app',
+            methods: {
+                handleClick: function(){
+                    alert('click');
+                }
+            }
+        })
+    </script>
+</body>
+</html>

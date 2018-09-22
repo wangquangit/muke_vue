@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件使用的细节</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 可以通过ref获取DOM节点 -->
+        <!-- <div ref="hello" @click="handleClick">hello</div> -->
+        <counter ref="one" @change="handleChange"></counter>
+        <counter ref="two" @change="handleChange"></counter>
+        <div>{{total}}</div>
+    </div>
+    <script>
+        Vue.component('counter',
+            {
+                data(){
+                    return {
+                        number: 0
+                    }
+                },
+                template: '<div @click="handleClick">{{number}}</div>',
+                methods:{
+                    handleClick(){
+                        this.number ++;
+                        this.$emit('change')
+                    }
+                }
+            }
+        )
+        var vm = new Vue({
+            el: '#app',
+            data: {total:0},
+            methods: {
+                handleChange: function(){
+                    // console.log(this.$refs.one.number)
+                    // console.log(this.$refs.two.number)
+                    this.total = this.$refs.one.number + this.$refs.two.number
+                }
+            }
+        })
+    </script>
+</body>
+</html>

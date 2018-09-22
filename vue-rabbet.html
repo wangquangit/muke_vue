@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中的插槽())</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">
+            <child>
+                <p>dell</p>
+            </child>
+    </div>
+    <script>
+        Vue.component('child',
+            {
+                template: `<div>
+                            <p>hello</p>
+                            <!-- 可以指定默认值:default,当插槽内没有数据时,则使用插槽内的数据 -->
+                            <slot>default</slot>
+                        </div>`
+            }
+        )
+
+        var vm = new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>
